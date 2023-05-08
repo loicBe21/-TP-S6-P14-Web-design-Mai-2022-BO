@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+          destroy-method="close">
+        <property name="driverClassName" value="org.postgresql.Driver" />
+        <property name="url" value="jdbc:postgresql://containers-us-west-197.railway.app:5727/railway" />
+        <property name="username" value="postgres" />
+        <property name="password" value="hToxzg5dRIttZcjk3A7E" />
+    </bean>
+    <bean id="sessionFactory"
+          class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+
+        <!-- to get all entities -->
+        <property name="dataSource" ref="dataSource" />
+        <property name="packagesToScan" value="com.example.backofficewbdesign.model" />
+
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQL82Dialect</prop>
+                <prop key="hibernate.current_session_context_class">thread</prop>
+                <prop key="hibernate.show_sql">true</prop>
+            </props>
+        </property>
+    </bean>
+    <bean id="hibernateDao" class="com.example.backofficewbdesign.dao.HibernateDao">
+        <property name="sessionFactory" ref="sessionFactory"/>
+
+    </bean>
+</beans>
